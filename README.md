@@ -1,6 +1,9 @@
 
 # Project Structure
 
+```
+# Project Structure
+
 Data/
   AppDbContext.cs
 
@@ -20,59 +23,52 @@ snapshot.json
 # File Explanation
 
 Data/
-
   AppDbContext.cs
     Acts as the bridge between the application and the SQLite database.
-    Inherits from DbContext.
-    DbContext is the database control center.
-    Uses DbSet<T> to define tables.
-    optionsBuilder.UseSqlite(_connectionString); create database.
+    Inherits from DbContext
+    Uses DbSet<T> to define tables
+    optionsBuilder.UseSqlite(_connectionString); create database
 
 
 Models/
-
   IncomingTransaction.cs
-    Class for json transactions.
-    Used for reading snapshot.json.
-
+    class for json transactions
+    Used for reading snapshot.json
+  
   TransactionRecord.cs
-    Class for Database entity.
-    Each row in database has a corresponding class in C#.
-
+    class for Database entity
+  
   TransactionAudit.cs
-    Class for Audit table entity.
-    _db.Audits.Add(...);
-    Stored in the same SQLite database file, but as a separate table.
+    class for Audit table entity
+    _db.Audits.Add(...)
+    Stored in the same SQLite database file, but as a separate table
 
 
 Services/
-
   IngestionRunner.cs
-    Main logic layer.
-    Create instance for the classes and operate.
-
+    Main logic layer. Create instance for the classes and operate
     private LoadSnapshot()
-      Read snapshot.json -> IncomingTransaction list.
-
-    Run()
-      _db.SaveChanges();
-      Interact with Database.
-
+      read snapshot.json -> IncomingTransaction
+    run()
+      _db.SaveChanges()
+      Interact with Database
+    
 
 Program.cs
-  Application entry point.
-  Loads appsettings.json.
-  Works as Main(string[] args), but written in modern simplified way.
-
+  Application entry point
+  loads appsettings.json
+  works as Main(string[] args), but written in modern simplied way
+  
 
 appsettings.json
-  Settings about:
+  settings about
     "Default": "Data Source=ingestion.db"
     "File": "snapshot.json"
 
 
 snapshot.json
-  Use for transactions.
+  use for transactions
+```
 
 # Core Logic
 24-Hour Window
