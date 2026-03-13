@@ -77,43 +77,33 @@ snapshot.json
 24-Hour Window
   var now = DateTime.UtcNow;
   var cutoff24 = now.AddHours(-24);
-
   if >= cutoff24 then it is recent time within 24h
 
 
 Read snapshot.json
   snapshot.json -> List -> Dictionary
 
-
 Upsert (by TransactionId)
   For each transaction in snapshot:
     foreach (var tx in snapshot)
-
   Update only if values changed
-
 
 Revocation
   Transactions within last 24 hours in DB but missing from snapshot are marked as revoked.
-
   var candidates = _db.Transactions
       .Where(r => r.TransactionTime >= cutoff24)
       .ToList();
 
-
 Finalization
   Transactions older than 24 hours and not finalized are marked with FinalizedUtc
-
   var toFinalize = _db.Transactions
       .Where(r => r.TransactionTime < cutoff24 && r.FinalizedUtc == null)
       .ToList();
 
-
 Idempotency
   Running the program multiple times with the same snapshot does not create duplicates.
-
   for each:
     var changed = existing.Amount != tx.Amount ...
-
   Guaranteed by audit only on real changes
 ```
 
